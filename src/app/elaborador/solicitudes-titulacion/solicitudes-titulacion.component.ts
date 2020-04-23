@@ -32,7 +32,14 @@ export class SolicitudesTitulacionComponent implements OnInit {
   codigoGet: string;
   numeroActual: number;
   numeroSiguiente: number;
-  listaDocumentos: any[] = [];
+  listaDocumentos: any[] = []
+  destinatario:string;
+  keyword="name"
+  InstitutoPerteneciente:string;
+  logoYav: string | ArrayBuffer;
+  logoBj: string | ArrayBuffer;
+  logo24M: string | ArrayBuffer;
+  logoGrc: string | ArrayBuffer;
   n: number;
   carreraxUser;
   codigoDoc;
@@ -53,6 +60,9 @@ export class SolicitudesTitulacionComponent implements OnInit {
   agregarCatalogo() {
     this.solicitud.listaIng.push(new Ing())
   }
+  selectDestinatario(item){
+    this.destinatario=item.name
+  }
   evento(e) {
     const x = e.target.value;
     console.log('Esto es x_:', x);
@@ -71,12 +81,69 @@ export class SolicitudesTitulacionComponent implements OnInit {
     this.fechaS = this.formBuilder.group({
       fechaS: ''
     })
-    this.solicitud.codigoDocumento = 'SPT-';
-    this.solicitudCodigoDocumento = 'SPT-';
+    this.solicitud.codigoDocumento = 'SOL-';
+    this.solicitudCodigoDocumento = 'SOL-';
     this.getLocalStorageData();
     this.constaEnCarrera();
+    /*this.generarCodigo()*/
   }
-
+  imagenUriYav() {
+    //logoYav
+    this.http.get('/assets/logoYav.png', { responseType: 'blob' })
+      .subscribe(res => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const x = reader.result;
+          this.logoYav = x;
+          this.solicitud.logoPic=this.logoYav;
+          console.log('ImagenEnBase64_LogoYav_: ', this.logoYav);
+        }
+        reader.readAsDataURL(res);
+        //console.log('RES_: ',res);
+      })
+    }
+    imagenUriBj(){
+    //logBj
+    this.http.get('/assets/logoBj.jpg', { responseType: 'blob' })
+      .subscribe(res => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          this.logoBj = reader.result;
+          this.solicitud.logoPic=this.logoBj;
+          //console.log('ImagenEnBase64_: ', this.logoBj);
+        }
+        reader.readAsDataURL(res);
+        //console.log('RES_: ',res);
+      })
+    }
+    imagenUriGrc(){
+    //logoGrc
+    this.http.get('/assets/logoGrc.png', { responseType: 'blob' })
+      .subscribe(res => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          this.logoGrc = reader.result;
+          this.solicitud.logoPic=this.logoGrc;
+          //console.log('ImagenEnBase64_: ', this.logoGrc);
+        }
+        reader.readAsDataURL(res);
+        //console.log('RES_: ',res);
+      })
+     }
+     imagenUri24M(){
+     //logo24M
+    this.http.get('/assets/logo24m.jpg', { responseType: 'blob' })
+      .subscribe(res => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          this.logo24M = reader.result;
+          this.solicitud.logoPic=this.logo24M;
+          //console.log('ImagenEnBase64_: ', this.logo24M);
+        }
+        reader.readAsDataURL(res);
+        //console.log('RES_: ',res);
+      })
+    }
   getLocalStorageData() {
     /*localStorage*/
     let user_string = localStorage.getItem("currentUser");
@@ -124,57 +191,73 @@ export class SolicitudesTitulacionComponent implements OnInit {
     var carrera_id = this.carreraxUser;
     if (this.n > 1) {
       console.log('generarCodigo()_:',this.solicitudCodigoDocumento, this.solicitud.codigoDocumento)
-      this.solicitudCodigoDocumento = this.solicitud.codigoDocumento + 'I.T.S.YAV-' + this.dateS + '-';
-      //console.log('ifMayor1_:', this.solicitudCodigoDocumento);
+      this.solicitudCodigoDocumento = this.solicitud.codigoDocumento + 'ITSYAV-' + this.dateS + '-';
+      this.solicitud.InstitutoPertenciciente='Instituto Tecnologico Superior Yavirac'
+      console.log('hola yavirac'+this.solicitud.InstitutoPertenciciente)  
+        this.imagenUriYav();
+         console.log('esto es ',this.usuario.name)
     } else
       if (this.n == 1) {
         if (carrera_id == 1) {
-          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'I.T.S.B.J.M-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'ITSBJ-' + this.dateS + '-';
+          this.solicitud.InstitutoPertenciciente='Instituto Tecnologico Superior "Benito Juarez"'
+          this.imagenUriBj();        
         }
         if (carrera_id == 2) {
-          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'I.T.S.24.M.K-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'ITS24M-' + this.dateS + '-';
+          this.solicitud.InstitutoPertenciciente='"Instituto Tecnologico Superior "24 de Mayo"'
+          console.log('hola yavirac'+"Instituto Tecnologico Superior 24 De Mayo" )  
+          this.imagenUri24M();
         }
         if (carrera_id == 3) {
-          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'I.T.S.G.C.M-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'ITSGC-' + this.dateS + '-';
+          this.solicitud.InstitutoPertenciciente='Instituto Tecnologico Superior "Gran Colombia"'
+          this.imagenUriGrc();
         }
         if (carrera_id == 4) {
-          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'I.T.S.YAV.AC.V-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'ITSYAVAC-' + this.dateS + '-';
+          this.solicitud.InstitutoPertenciciente='Instituto Tecnologico Superior "Yavirac"' 
+          this.imagenUriYav();
         }
         if (carrera_id == 5) {
-          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'I.T.S.YAV.GT.M-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'ITSYAV-' + this.dateS + '-';
+          this.solicitud.InstitutoPertenciciente='Instituto Tecnologico Superior "Yavirac"' 
+          this.imagenUriYav();
         }
         if (carrera_id == 6) {
-          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'I.T.S.YAV.MK-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'ITSYAV-' + this.dateS + '-';
+          this.solicitud.InstitutoPertenciciente='Instituto Tecnologico Superior "Yavirac"' 
+          this.imagenUriYav();
         }
         if (carrera_id == 7) {
-          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'I.T.S.YAV.ELT.N-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'ITSYAV-' + this.dateS + '-';
+          this.solicitud.InstitutoPertenciciente='Instituto Tecnologico Superior "Yavirac"' 
+          this.imagenUriYav();
         }
         if (carrera_id == 8) {
-          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'I.T.S.YAV.ELT.V-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'ITSYAV-' + this.dateS + '-';
+          this.solicitud.InstitutoPertenciciente='Instituto Tecnologico Superior "Yavirac"' 
+          this.imagenUriYav();
         }
         if (carrera_id == 9) {
-          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'I.T.S.B.J.V-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'ITSBJ-' + this.dateS + '-';
+          this.solicitud.InstitutoPertenciciente='Instituto Tecnologico Superior "Benito Juarez"' 
+          this.imagenUriBj();;
         }
         if (carrera_id == 10) {
-          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'I.T.S.YAV.AC.M-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'ITSYAV-' + this.dateS + '-';
+          this.solicitud.InstitutoPertenciciente='Instituto Tecnologico Superior "Yavirac"' 
+          this.imagenUriYav();
         }
         if (carrera_id == 11) {
-          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'I.T.S.YAV.GT.V-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'ITSYAV-' + this.dateS + '-';
+          this.solicitud.InstitutoPertenciciente='Instituto Tecnologico Superior "Yavirac"' 
+         this.imagenUriYav();
         }
         if (carrera_id == 12) {
-          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'I.T.S.G.C.DM.V-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.solicitudCodigoDocumento = this.solicitudCodigoDocumento + 'ITSGC-' + this.dateS + '-';
+          this.solicitud.InstitutoPertenciciente='Instituto Tecnologico Superior "Gran Colombia"'
+          this.imagenUriGrc();
         }
       }
     this.comprobarDocumentosExistentes();
@@ -197,7 +280,7 @@ export class SolicitudesTitulacionComponent implements OnInit {
       for (const key in data) {
         if (data.hasOwnProperty(key)) {
           element = data[key];
-          array.push(element);
+          array.push(element);  
           //console.log('ELEMENT_2_:',array[key]);
         }
       }
@@ -233,7 +316,7 @@ export class SolicitudesTitulacionComponent implements OnInit {
     for (let i = 0; i < this.codigoDoc.length; i++) {
       var t = this.codigoDoc[i].codigo_documento;
       var elemento = this.codigoDoc[i];
-      n = t.includes('SPT');
+      n = t.includes('SOL');
       //console.log(n);
       if (n) {
         console.log('Variable_t_:', t)
@@ -382,7 +465,7 @@ export class SolicitudesTitulacionComponent implements OnInit {
   }
   visualizarPdf(){
     const defenicionSolicitud = this.getDefinicionSolicitud();
-    const pdf:Object = pdfMake.createPdf(defenicionSolicitud).getDataUrl();
+    const pdf:Object = pdfMake.createPdf(defenicionSolicitud).open();
     console.log('visualizarPdf()_: ',pdf);
   }
   publicarEnGedi() {
@@ -490,29 +573,53 @@ export class SolicitudesTitulacionComponent implements OnInit {
   getDefinicionSolicitud() {
     sessionStorage.setItem('solicitud-titulacion', JSON.stringify(this.solicitud));
     return {
+      
       content: [
         {
+          columns:[
+            [{
+             image: this.solicitud.logoPic, 
+             width:100,
+             height:75,
+             style:'img',
+             alignment:'left'
+            }]
+          ]
+         },
+         {
+          canvas: [{ type: 'line', x1: 0, y1: 3, x2: 590-2*30, y2: 3, lineWidth: 3 }]
+         },
+
+        {
+          columns:[
+            [{
           text: 'Solicitud de Proyecto de Titulacion',
           bold: true,
           fontSize: 20,
           alignment: 'center',
-          margin: [0, 0, 0, 20]
+          margin: [20, 20, 20, 20]
+        }]
+      ]
         },
         {
           columns: [
             [{
-              text: this.solicitudCodigoDocumento,
+              text:this.solicitud.InstitutoPertenciciente,
               style: 'titulo'
             }]
           ]
-        },/* 
-    {
-      columns:[
-        [{text:this.solicitud.codigoDocumento,
-        style:'num'
-      }]
-      ]
-    }, */
+          },
+          {
+            columns:[
+              [{
+               text:this.solicitudCodigoDocumento,
+               bold:true,
+               fontSize:12,
+               alignment:'center'
+                }]  
+            ]
+          },
+          ,
         {
           columns: [
             [{
@@ -525,16 +632,15 @@ export class SolicitudesTitulacionComponent implements OnInit {
         {
           columns: [
             [{
-              text: 'Destinatario',
+              text: `Destinatario :${this.destinatario}`,
               style: 'destinatario'
             }]
           ]
         },
-        this.getObjectoDocumento(this.solicitud.listaIng),
         {
           columns: [
             [{
-              text: ' Yo : ' + this.solicitud.presentacionSolicitante + " " + 'Con "C.I." ' + this.solicitud.cedula + " "
+              text: ' Yo : ' + this.usuario.name + " " + 'Con "C.I." ' + this.usuario.user_name + " "
                 + " " + this.solicitud.cuerpo + ' ' + this.solicitud.titulacion
               , style: 'presentacionSolicitante'
             }]
@@ -559,7 +665,7 @@ export class SolicitudesTitulacionComponent implements OnInit {
         {
           columns: [
             [{
-              text: 'Atentamente:' + '' + '' + this.solicitud.presentacionSolicitante,
+              text: 'Atentamente:' + '' + '' + this.usuario.name,
               style: 'despedida'
             }]
           ]
@@ -567,7 +673,7 @@ export class SolicitudesTitulacionComponent implements OnInit {
         {
           columns: [
             [{
-              text: this.solicitud.presentacionSolicitante,
+              text: this.usuario.name,
               style: 'nombre'
             }]
           ]
@@ -575,7 +681,7 @@ export class SolicitudesTitulacionComponent implements OnInit {
         {
           columns: [
             [{
-              text: this.solicitud.cedula,
+              text: this.usuario.user_name,
               style: 'cedula'
             }]
           ]

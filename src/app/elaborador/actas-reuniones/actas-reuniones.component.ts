@@ -3,7 +3,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import { ActasReuniones, Orden, Docentes } from 'src/app/models/actas-reuniones';
 import { DatePipe } from '@angular/common'
 import { sign } from 'crypto';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { ServicioService } from 'src/app/servicio.service';
 import { FormBuilder } from '@angular/forms';
 import { UserData } from 'src/app/models/userData';
@@ -40,9 +40,15 @@ export class ActasReunionesComponent implements OnInit {
   m;
   invitado;
   loading: boolean;
+  InstitutoPerteneciente:string;
+  logoYav: string | ArrayBuffer;
+  logoBj: string | ArrayBuffer;
+  logo24M: string | ArrayBuffer;
+  logoGrc: string | ArrayBuffer;
   constructor(private formBuilder:FormBuilder
     ,public datepipe: DatePipe,
-    public service: ServicioService) {
+    public service: ServicioService,
+    public http:HttpClient) {
 
     
     this.reunion = JSON.parse(sessionStorage.getItem('acta-reunion')) || new ActasReuniones();
@@ -72,6 +78,63 @@ export class ActasReunionesComponent implements OnInit {
     this.getLocalStorageData();
     this.constaEnCarrera();
   }
+  imagenUriYav() {
+    //logoYav
+    this.http.get('/assets/logoYav.png', { responseType: 'blob' })
+      .subscribe(res => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const x = reader.result;
+          this.logoYav = x;
+          this.reunion.logoPic=this.logoYav;
+          console.log('ImagenEnBase64_LogoYav_: ', this.logoYav);
+        }
+        reader.readAsDataURL(res);
+        //console.log('RES_: ',res);
+      })
+    }
+    imagenUriBj(){
+    //logBj
+    this.http.get('/assets/logoBj.jpg', { responseType: 'blob' })
+      .subscribe(res => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          this.logoBj = reader.result;
+          this.reunion.logoPic=this.logoBj;
+          //console.log('ImagenEnBase64_: ', this.logoBj);
+        }
+        reader.readAsDataURL(res);
+        //console.log('RES_: ',res);
+      })
+    }
+    imagenUriGrc(){
+    //logoGrc
+    this.http.get('/assets/logoGrc.png', { responseType: 'blob' })
+      .subscribe(res => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          this.logoGrc = reader.result;
+          this.reunion.logoPic=this.logoGrc;
+          //console.log('ImagenEnBase64_: ', this.logoGrc);
+        }
+        reader.readAsDataURL(res);
+        //console.log('RES_: ',res);
+      })
+     }
+     imagenUri24M(){
+     //logo24M
+    this.http.get('/assets/logo24m.jpg', { responseType: 'blob' })
+      .subscribe(res => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          this.logo24M = reader.result;
+          this.reunion.logoPic=this.logo24M;
+          //console.log('ImagenEnBase64_: ', this.logo24M);
+        }
+        reader.readAsDataURL(res);
+        //console.log('RES_: ',res);
+      })
+    }
   getLocalStorageData() {
     /*localStorage*/
     let user_string = localStorage.getItem("currentUser");
@@ -119,57 +182,72 @@ export class ActasReunionesComponent implements OnInit {
     var carrera_id = this.carreraxUser;
     if (this.n > 1) {
       console.log('generarCodigo()_:',this.actaReunionesCodigoUsuario, this.reunion.codigoDocumento)
-      this.actaReunionesCodigoUsuario = this.reunion.codigoDocumento + 'I.T.S.YAV-' + this.dateS + '-';
+      this.actaReunionesCodigoUsuario = this.reunion.codigoDocumento + 'ITSYAV-' + this.dateS + '-';
       //console.log('ifMayor1_:', this.solicitudCodigoDocumento);
+      this.reunion.InstitutoPertenciciente='Instituto Tecnologico Superior Yavirac'
+         this.imagenUriYav()         
     } else
       if (this.n == 1) {
         if (carrera_id == 1) {
-          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'I.T.S.B.J.M-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'ITSBJ-' + this.dateS + '-';
+          this.reunion.InstitutoPertenciciente='Instituto Tecnologico Superior "Benito Juarez"'
+       this.imagenUriBj()
         }
         if (carrera_id == 2) {
-          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'I.T.S.24.M.K-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'ITS24M-' + this.dateS + '-';
+          this.reunion.InstitutoPertenciciente='"Instituto Tecnologico Superior "24 De Mayo"'
+          this.imagenUri24M()
         }
         if (carrera_id == 3) {
-          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'I.T.S.G.C.M-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'ITSGC-' + this.dateS + '-';
+          this.reunion.InstitutoPertenciciente='"Instituto Tecnologico Superior "Gran Colombia"'
+          this.imagenUriGrc()
         }
         if (carrera_id == 4) {
-          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'I.T.S.YAV.AC.V-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'ITSYAVACV-' + this.dateS + '-'; 
+          this.reunion.InstitutoPertenciciente='"Instituto Tecnologico Superior "Yavirac"'
+         this.imagenUriYav();
         }
         if (carrera_id == 5) {
-          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'I.T.S.YAV.GT.M-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'ITSYAV-' + this.dateS + '-';
+          this.reunion.InstitutoPertenciciente='"Instituto Tecnologico Superior "Yavirac"'
+         this.imagenUriYav()
         }
         if (carrera_id == 6) {
-          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'I.T.S.YAV.MK-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'ITSYAV-' + this.dateS + '-';
+          this.reunion.InstitutoPertenciciente='"Instituto Tecnologico Superior "Yavirac"'
+         this.imagenUriYav()
         }
         if (carrera_id == 7) {
-          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'I.T.S.YAV.ELT.N-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'ITSYAV-' + this.dateS + '-';
+          this.reunion.InstitutoPertenciciente='"Instituto Tecnologico Superior "Yavirac"'
+          this.imagenUriYav();
         }
         if (carrera_id == 8) {
-          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'I.T.S.YAV.ELT.V-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'ITSYAV-' + this.dateS + '-';
+          this.reunion.InstitutoPertenciciente='"Instituto Tecnologico Superior "Yavirac"'
+          this.imagenUriYav();
         }
         if (carrera_id == 9) {
-          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'I.T.S.B.J.V-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'ITSBJ-' + this.dateS + '-';
+          this.reunion.InstitutoPertenciciente='"Instituto Tecnologico Superior "Benito Juarez"'
+          this.imagenUriBj();
+
         }
         if (carrera_id == 10) {
-          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'I.T.S.YAV.AC.M-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'ITSYAV-' + this.dateS + '-';
+          this.reunion.InstitutoPertenciciente='"Instituto Tecnologico Superior "Yavirac"'
+         this.imagenUriYav()
         }
         if (carrera_id == 11) {
-          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'I.T.S.YAV.GT.V-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'ITSYAV-' + this.dateS + '-';
+          this.reunion.InstitutoPertenciciente='"Instituto Tecnologico Superior "Yavirac"'
+          this.imagenUriYav();
         }
         if (carrera_id == 12) {
-          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'I.T.S.G.C.DM.V-' + this.dateS + '-';
-          //console.log('Carrera_:', this.solicitudCodigoDocumento)
+          this.actaReunionesCodigoUsuario = this.actaReunionesCodigoUsuario + 'ITSGC-' + this.dateS + '-';
+          this.reunion.InstitutoPertenciciente='"Instituto Tecnologico Superior "Yavirac"'
+          this.imagenUriYav();
         }
       }
     this.comprobarDocumentosExistentes();
@@ -528,8 +606,22 @@ export class ActasReunionesComponent implements OnInit {
           style : 'titulo'
         }, */
         {
+         image:this.reunion.logoPic,
+         width:100,
+         height:75,
+         style:'img',
+         alignment:'left'
+        },
+        {
+          canvas: [{ type: 'line', x1: 0, y1: 3, x2: 590-2*30, y2: 3, lineWidth: 3 }]
+        },
+        {
           text: 'ACTA DE REUNIÓN',
           style : 'titulo'
+        },
+        {
+          text:this.reunion.InstitutoPertenciciente,
+              style: 'titulo'
         },
         {
           text: this.actaReunionesCodigoUsuario,
@@ -613,7 +705,7 @@ export class ActasReunionesComponent implements OnInit {
         {
           text: 'Para constancia de lo actuado firman: ',
           fontSize: 12,
-          margin : [5 , 40 , 5 ,60]
+          margin : [0 , 20 , 0 ,20]
         },
         {
           table: {
@@ -631,7 +723,7 @@ export class ActasReunionesComponent implements OnInit {
               ],
               [
                 {
-                  text: `"nombre del usuario logeado"`
+                  text: this.usuario.name
                   ,style : 'sign'
                 },
                 {
@@ -673,26 +765,26 @@ export class ActasReunionesComponent implements OnInit {
       ],
         styles: {
           titulo: {
-            fontSize: 14,
+            fontSize: 12,
             bold: true,
-            margin: [0, 20, 0, 20],
+            margin: [0, 10, 0, 10],
             alignment: 'center',
             textAlign: 'justify'
           },
           subTitulo: {
-            fontSize: 13,
+            fontSize: 11,
             bold: true,
-            margin: [5, 10, 5, 10]
+            margin: [0, 0, 0, 0]
           },
           cabecera: {
-            fontSize: 12,
-            margin: [5, 10, 5, 10],
+            fontSize: 10,
+            margin: [0, 10, 0, 10],
             textAlign: 'justify'
           },
           body: {
             fontSize: 12,
             fontFamily : 'times new roman',
-            margin : [5, 10,5,10],
+            margin : [0, 10,0,10],
             textAlign: 'justify'
           },
           pie : {
@@ -704,7 +796,7 @@ export class ActasReunionesComponent implements OnInit {
             textAlign: 'justify'
           },
           sign: {
-            margin: [0, 50, 0, 10],
+            margin: [0, 40, 0, 10],
             alignment: 'right',
             italics: true
           },

@@ -81,7 +81,6 @@
             </i>
             Destinatario:
           </h4>
-        <button class="btn btn-primary" (click)="agregarCatalogo()">+</button>
       </div>
       <ng-autocomplete 
       [data]="listaProf"
@@ -137,7 +136,7 @@
           <div class="row">
             <div class="col-md-12">
               <div class="form-group">
-                <label id="hola">Por medio de este oficio</label><textarea class="form-control"[(ngModel)]='oficios.cuerpo' name="oficios" rows="4"
+                <label id="hola">Por medio de un oficio hago saber</label><textarea class="form-control"[(ngModel)]='oficios.cuerpo' name="oficios" rows="4"
                   placeholder="Cuerpo" #cuerpo="ngModel" required
                   [ngClass]="{'is-invalid':cuerpo.invalid && (cuerpo.touched|| oficiosForm.submitted)}"></textarea>
               </div>
@@ -153,9 +152,9 @@
           <div class="row">
             <div class="col-md-12">
               <div class="form-group">
-             <textarea class="form-control"[(ngModel)]='oficios.despedida' name="oficios" rows="3"
+             <!-- <textarea class="form-control"[(ngModel)]='oficios.despedida' name="oficios" rows="3"
             placeholder="Despedida" #despedida="ngModel" required
-            [ngClass]="{'is-invalid':despedida.invalid && (despedida.touched|| oficiosForm.submitted)}"></textarea>
+            [ngClass]="{'is-invalid':despedida.invalid && (despedida.touched|| oficiosForm.submitted)}"></textarea> -->
             <label>Reciba un cordial saludo, atentamente</label>    
           </div>
             </div>

@@ -126,56 +126,56 @@ export class HojaDeVidaComponent implements OnInit {
     var carrera_id = this.carreraxUser;
     if (this.n > 1) {
       console.log('generarCodigo()_:', this.hdvCodigoUsuario, this.resume.codigoDocumento)
-      this.hdvCodigoUsuario = this.resume.codigoDocumento + 'I.T.S.YAV-' + this.dateS + '-';
+      this.hdvCodigoUsuario = this.resume.codigoDocumento + 'ITSYAV-' + this.dateS + '-';
       //console.log('ifMayor1_:', this.solicitudCodigoDocumento);
     } else
       if (this.n == 1) {
         if (carrera_id == 1) {
-          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'I.T.S.B.J.M-' + this.dateS + '-';
+          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'ITSBJM-' + this.dateS + '-';
           //console.log('Carrera_:', this.solicitudCodigoDocumento)
         }
         if (carrera_id == 2) {
-          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'I.T.S.24.M.K-' + this.dateS + '-';
+          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'ITS24M-' + this.dateS + '-';
           //console.log('Carrera_:', this.solicitudCodigoDocumento)
         }
         if (carrera_id == 3) {
-          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'I.T.S.G.C.M-' + this.dateS + '-';
+          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'ITSGC-' + this.dateS + '-';
           //console.log('Carrera_:', this.solicitudCodigoDocumento)
         }
         if (carrera_id == 4) {
-          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'I.T.S.YAV.AC.V-' + this.dateS + '-';
+          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'ITSYAV-' + this.dateS + '-';
           //console.log('Carrera_:', this.solicitudCodigoDocumento)
         }
         if (carrera_id == 5) {
-          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'I.T.S.YAV.GT.M-' + this.dateS + '-';
+          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'ITSYAV-' + this.dateS + '-';
           //console.log('Carrera_:', this.solicitudCodigoDocumento)
         }
         if (carrera_id == 6) {
-          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'I.T.S.YAV.MK-' + this.dateS + '-';
+          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'ITSYAV-' + this.dateS + '-';
           //console.log('Carrera_:', this.solicitudCodigoDocumento)
         }
         if (carrera_id == 7) {
-          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'I.T.S.YAV.ELT.N-' + this.dateS + '-';
+          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'ITSYAV-' + this.dateS + '-';
           //console.log('Carrera_:', this.solicitudCodigoDocumento)
         }
         if (carrera_id == 8) {
-          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'I.T.S.YAV.ELT.V-' + this.dateS + '-';
+          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'ITSYAVELT-' + this.dateS + '-';
           //console.log('Carrera_:', this.solicitudCodigoDocumento)
         }
         if (carrera_id == 9) {
-          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'I.T.S.B.J.V-' + this.dateS + '-';
+          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'ITSBJ-' + this.dateS + '-';
           //console.log('Carrera_:', this.solicitudCodigoDocumento)
         }
         if (carrera_id == 10) {
-          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'I.T.S.YAV.AC.M-' + this.dateS + '-';
+          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'ITSYAV-' + this.dateS + '-';
           //console.log('Carrera_:', this.solicitudCodigoDocumento)
         }
         if (carrera_id == 11) {
-          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'I.T.S.YAV.GT.V-' + this.dateS + '-';
+          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'ITSYAV-' + this.dateS + '-';
           //console.log('Carrera_:', this.solicitudCodigoDocumento)
         }
         if (carrera_id == 12) {
-          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'I.T.S.G.C.DM.V-' + this.dateS + '-';
+          this.hdvCodigoUsuario = this.hdvCodigoUsuario + 'ITSGC-' + this.dateS + '-';
           //console.log('Carrera_:', this.solicitudCodigoDocumento)
         }
       }
@@ -517,14 +517,14 @@ export class HojaDeVidaComponent implements OnInit {
         {
           columns: [
             [{
-              text: this.resume.name,
+              text: this.usuario.name,
               style: 'name'
             },
             {
               text: this.resume.address
             },
             {
-              text: 'Email : ' + this.resume.email,
+              text: 'Email : ' + this.usuario.email,
             },
             {
               text: 'Teléfono : ' + this.resume.contactNo,

@@ -12,19 +12,17 @@
             <h4 class="card-title d-flex">
               Para:
             </h4>
-                <ng-autocomplete 
-                  [data]="listaDocentes"
-                  [searchKeyword]="keyword"
-                  [itemTemplate]="itemTemplate"
-                  placeholder="Nombre"
-                  (selected)='selectEvent($event)'
-                  > 
-                                              
-                </ng-autocomplete>
-                
-                <ng-template #itemTemplate let-item>
-                <a [innerHTML]="item.nombre"  ></a>
-                </ng-template>
+            <ng-autocomplete 
+            [data]="listaProf"
+            [searchKeyword]="keyword"
+            (selected)='selectPara($event)'
+            
+            [itemTemplate]="itemTemplate"                                 
+                      ></ng-autocomplete>
+           
+          <ng-template #itemTemplate let-item>
+          <a [innerHTML]="item.name"></a>
+          </ng-template>        
                 
           </div>
           <div class="card-body">
